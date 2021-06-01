@@ -50,6 +50,7 @@ def game(list_complete_rand, correct_words, false_words, color):
 
         # Initialize a window with random words
         window_ingame = tk.Tk()
+        window_ingame.title('PySch')
         window_ingame.eval('tk::PlaceWindow . center')
 
         window_ingame.geometry("500x100")
@@ -140,6 +141,7 @@ def gui_score(part_one, part_two):
     '''
     # Initialize score window
     window_results = tk.Tk()
+    window_results.title('PySch')
     window_results.eval('tk::PlaceWindow . center')
     window_results.geometry("500x250")
 
@@ -187,9 +189,12 @@ def main():
     list_white = list_complete[len(list_complete)//2:]
     list_orange = list_complete[0:len(list_complete)//2]
 
+    # Only 5 words from each set are taken as words which are checked for the player's memory
+    list_white = list_white[0:5]
+    list_orange = list_orange[-5:]
+
     list_complete_rand = list_complete
     random.shuffle(list_complete_rand)
-
 
     part_one = gui(list_complete_rand, list_white, list_orange, 'white')
     part_two = gui(list_complete_rand, list_orange, list_white, 'orange')
