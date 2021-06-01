@@ -7,8 +7,8 @@ def file_to_list(path):
     '''
     Turns a .txt file with a word list into a Python list
     '''
+
     list = []
-    file = open(path, encoding='utf-8')
 
     with open(path, mode='r', encoding='utf-8') as file_reader:
         for row in file_reader:
@@ -23,6 +23,7 @@ def return_correct():
     '''
     Returns 'T' if 'True' button is clicked
     '''
+
     global user_input
     user_input = 'T' 
     print(user_input)
@@ -33,6 +34,7 @@ def return_false():
     '''
     Returns 'N' if "False" button is clicked.
     '''
+
     global user_input
     user_input = 'N'
     print(user_input)
@@ -43,6 +45,7 @@ def game(list_complete_rand, correct_words, false_words, color):
     '''
     Game logic
     '''
+
     step_counter = 0
     score = 0
     # Iterate through a list of random words
@@ -100,6 +103,7 @@ def gui(list_complete_rand, list_correct, list_false, color):
     '''
     Initial game GUI
     '''
+
     # Initialize game window
     window = tk.Tk()
     window.eval('tk::PlaceWindow . center')
@@ -139,6 +143,7 @@ def gui_score(part_one, part_two):
     '''
     GUI which shows previoius game results
     '''
+
     # Initialize score window
     window_results = tk.Tk()
     window_results.title('PySch')
@@ -184,8 +189,9 @@ def main():
     '''
     Main function
     '''
-    #list_complete = file_to_list('words.txt')
-    list_complete = ['sretan', 'cvijet','sunce','pčela','zavjesa','gitara', 'računalo', 'monitor', 'program', 'zvučnik']
+
+    list_complete = file_to_list('words.txt')
+    #list_complete = ['sretan', 'cvijet','sunce','pčela','zavjesa','gitara', 'računalo', 'monitor', 'program', 'zvučnik']
     list_white = list_complete[len(list_complete)//2:]
     list_orange = list_complete[0:len(list_complete)//2]
 
@@ -193,11 +199,23 @@ def main():
     list_white = list_white[0:5]
     list_orange = list_orange[-5:]
 
-    list_complete_rand = list_complete
-    random.shuffle(list_complete_rand)
+    # Add three random samples which may, or may not be present in list_white and list_orange
+    list_completed_rand = list_complete
+    random.shuffle(list_completed_rand)
 
-    part_one = gui(list_complete_rand, list_white, list_orange, 'white')
-    part_two = gui(list_complete_rand, list_orange, list_white, 'orange')
+    list_completed_rand = list_completed_rand[0:3]
+
+    # Concatenate lists for more randomness and add a few words which are not present in w/o lists
+    list_selected_rand = list_white + list_orange + list_completed_rand
+
+    # Remove duplicates if they exist
+    set_selected_rand = set(list_selected_rand)
+    list_selected_rand = list(set_selected_rand)
+    random.shuffle(list_selected_rand)
+
+    # Start game
+    part_one = gui(list_selected_rand, list_white, list_orange, 'white')
+    part_two = gui(list_selected_rand, list_orange, list_white, 'orange')
 
     gui_score(part_one, part_two)
 
